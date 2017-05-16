@@ -10,6 +10,10 @@ function Calendar() {
     }
   }
 
+  function removeEvent(eventId){
+    events =  events.filter(e => e.id != eventId);
+  }
+
   function getEvents() {
     return Object.assign([], events);
   }
@@ -24,7 +28,8 @@ function Calendar() {
   return {
     addEvent: addEvent,
     getEvents: getEvents,
-    isAvailable: isAvailable
+    isAvailable: isAvailable,
+    removeEvent: removeEvent
   };
 }
 module.exports = Calendar;
