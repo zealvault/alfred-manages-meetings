@@ -63,7 +63,7 @@ describe('mongo repository', function () {
   //   });
 
   //   var service = new Service();
-     
+
   //   service.insertRoom(beach)
   //     .then((data) => console.log(data))
   //     .catch((err) => console.log(err))
@@ -79,4 +79,33 @@ describe('mongo repository', function () {
   //     .catch((err) => console.log(err))
   //     .then(() => done());
   // });
+
+  it('should insert a room object into office', function (done) {
+
+    var beach = new Room({
+      name: "Beach",
+      calendar: {
+        events: [{
+          id: "Some Id",
+          title: "Some title",
+          description: "Some Description",
+          slot: {
+            startsAt: "Some Date",
+            endsAt: "Some Date"
+          },
+          createdBy: {
+            userId: "vsingh@ee.com",
+            userName: "vishal"
+          }
+        }]
+      }
+    });
+
+    var service = new Service();
+
+    service.insertRoom(beach)
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err))
+      .then(() => done());
+  });
 });

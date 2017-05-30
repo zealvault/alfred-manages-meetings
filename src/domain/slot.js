@@ -1,3 +1,5 @@
+var SlotDto = require('../repository/slotModel');
+
 function Slot(startsAt, endsAt) {
   var startsAt = startsAt;
   var endsAt = endsAt;
@@ -7,10 +9,15 @@ function Slot(startsAt, endsAt) {
       (slotToBook.endsAt > startsAt && slotToBook.endsAt <= endsAt))
   }
 
+  function toDto(){
+    return new SlotDto({startsAt,endsAt});
+  }
+
   return {
     startsAt: startsAt,
     endsAt: endsAt,
-    fallsInSlot: fallsInSlot
+    fallsInSlot: fallsInSlot,
+    toDto: toDto
   }
 }
 

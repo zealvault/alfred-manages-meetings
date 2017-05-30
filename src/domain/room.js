@@ -1,3 +1,5 @@
+var RoomDto = require('../repository/roomModel');
+
 function Room(name, calendar) {
   var name = name;
   var calendar = calendar;
@@ -10,9 +12,14 @@ function Room(name, calendar) {
     return name;
   }
 
+  function toDto(){
+    return new RoomDto({name, calendar: calendar.toDto()});
+  }
+
   return {
     getCalendar: getCalendar,
-    getName: getName
+    getName: getName,
+    toDto: toDto
   }
 
 }

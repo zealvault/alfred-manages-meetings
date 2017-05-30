@@ -1,3 +1,5 @@
+var CalendarDto = require('../repository/calendarModel');
+
 function Calendar() {
   var events = [];
 
@@ -10,8 +12,8 @@ function Calendar() {
     }
   }
 
-  function removeEvent(eventId){
-    events =  events.filter(e => e.id != eventId);
+  function removeEvent(eventId) {
+    events = events.filter(e => e.id != eventId);
   }
 
   function getEvents() {
@@ -25,11 +27,18 @@ function Calendar() {
     return !conflictingEvent;
   }
 
+  function toDto() {
+    var eventsDto = [];
+    events.map(e => eventsDto.push(e.toDto()));
+    return new CalendarDto(eventsDto);
+  }
+
   return {
     addEvent: addEvent,
     getEvents: getEvents,
     isAvailable: isAvailable,
-    removeEvent: removeEvent
+    removeEvent: removeEvent,
+    toDto: toDto
   };
 }
 module.exports = Calendar;

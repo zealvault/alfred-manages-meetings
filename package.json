@@ -4,7 +4,9 @@
   "description": "Slack Bot",
   "main": "index.js",
   "scripts": {
+    "dev": "npm-run-all --parallel test:watch",
     "test": "mocha \"./test/**/*.spec.js\"",
+    "test:watch": "mocha -w \"./test/**/*.spec.js\"",
     "start": "node ./src/index.js"
   },
   "author": "EE",
@@ -13,13 +15,16 @@
     "assert": "^1.4.1",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
+    "chai-as-promised": "^6.0.0",
     "express": "^4.15.2",
     "mongodb": "^2.2.26",
     "mongoose": "^4.10.0",
+    "reload": "^1.1.5",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^3.3.0"
+    "mocha": "^3.3.0",
+    "npm-run-all": "^4.0.2"
   }
 }

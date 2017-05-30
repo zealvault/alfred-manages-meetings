@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
 var Room = require('./roomModel');
+var Office = require('./officeModel');
 
 function Service() { //TODO: accepting URL from constructor
 
@@ -9,6 +10,23 @@ function Service() { //TODO: accepting URL from constructor
   var conn = mongoose.connect(dbUrl);
   mongoose.set('debug', true);
 
+  function getRooms() {
+    return new Promise((resolve, reject) => {
+      conn
+        .then(() => {
+          Room.find().
+          then((data) => {
+              resolve(data);
+            })
+            .catch(() => {
+              reject("cant get rooms");
+            })
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    });
+  }
 
   function insertRoom(room) {
 
@@ -107,6 +125,7 @@ function Service() { //TODO: accepting URL from constructor
   }
 
   return {
+    getRooms: getRooms,
     insertRoom: insertRoom,
     removeRoom: removeRoom,
     addEvent: addEvent,

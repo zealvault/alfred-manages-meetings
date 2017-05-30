@@ -1,27 +1,47 @@
+var Service = require('../repository/service');
+var Room = require('./room');
+var mongoService = new Service();
 var Office = function (rooms = []) {
 
   var rooms = rooms;
 
-  function add(room) {
-    if (rooms.find(r => r.getName() == room.getName())) {
+  function addRoom(room) {
+    var roomsDomain = [];
+    getRooms()
+      .then((rooms) => {
+        roomsDomain = rooms;
+      })
+    if (roomsDomain.indexOf(room.getName())) {
       throw new Error(`Room with name ${room.getName()} is already present.`);
     } else {
-      rooms.push(room);
+        return mongoService.insertRoom(room.toDto())
     }
   }
-
-  function remove(room) {
-    rooms = rooms.filter(r => r.getName() != room.getName());
+ 
+  function removeRoom(roomName) {
+    return mongoService.removeRoom(roomName);
   }
 
   function getRooms() {
-    return Object.assign([], rooms);
+    var roomsDomain = [];
+    var promise = new Promise((resolve,reject) => {
+      mongoService.getRooms()
+      .then((rooms) => {
+        rooms.map(r => roomsDomain.push(new Room(r.name,{})));
+        resolve(roomsDomain);
+      })
+      .catch((error) => {
+        reject(error);
+      })
+    })
+
+    return promise;
   }
 
   return {
-    addRoom: add,
+    addRoom: addRoom,
     getRooms: getRooms,
-    removeRoom: remove
+    removeRoom: removeRoom
   }
 }
 
